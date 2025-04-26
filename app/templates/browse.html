@@ -174,45 +174,17 @@
                     <i class="fas fa-file me-2"></i>文件
                 </div>
                 <div class="list-group list-group-flush">
-                    <!-- 在面包屑导航下方添加视图切换按钮 -->
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <nav aria-label="breadcrumb" class="flex-grow-1">
-                            <ol class="breadcrumb bg-light p-3 rounded shadow-sm">
-                                <li class="breadcrumb-item">
-                                    <a href="{{ url_for('index') }}"><i class="fas fa-home"></i></a>
-                                </li>
-                                {% set parts = [] %}
-                                {% for part in current_path.split('\\') if part %}
-                                    {% if loop.first %}
-                                        {% set _ = parts.append(part + '\\') %}
-                                    {% else %}
-                                        {% set _ = parts.append(part) %}
-                                    {% endif %}
-                                {% endfor %}
-                                
-                                {% for part in parts %}
-                                    <li class="breadcrumb-item {% if not loop.last %}active{% endif %}">
-                                        {% if loop.last %}
-                                            {{ part }}
-                                        {% else %}
-                                            <a href="{{ url_for('browse', dirpath=parts[:loop.index]|join('\\')) }}">
-                                                {{ part }}
-                                                {% if loop.first %}<i class="fas fa-level-up-alt ms-1"></i>{% endif %}
-                                            </a>
-                                        {% endif %}
-                                    </li>
-                                {% endfor %}
-                            </ol>
-                        </nav>
-                        <!-- 在视图切换按钮组中添加列数选择 -->
-                        <div class="btn-group ms-3">
+                    <!-- 将排序和视图切换按钮合并到一个flex容器中 -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 px-3">
+                        <!-- 视图切换按钮组 -->
+                        <div class="btn-group me-2 mb-2">
                             <button class="btn btn-outline-secondary view-btn active" data-view="list">
                                 <i class="fas fa-list"></i>
                             </button>
                             <button class="btn btn-outline-secondary view-btn" data-view="grid">
                                 <i class="fas fa-th-large"></i>
                             </button>
-                            <!-- 添加单列/双列布局切换 -->
+                            <!-- 列数选择下拉菜单 -->
                             <div class="btn-group">
                                 <button type="button" class="btn btn-outline-secondary dropdown-toggle" 
                                         data-bs-toggle="dropdown" aria-expanded="false">
@@ -228,20 +200,18 @@
                         </div>
 
                         <!-- 排序下拉菜单 -->
-                        <div class="d-flex justify-content-between align-items-center mb-4 px-3">
-                            <div class="dropdown">
-                                <button class="btn btn-purple dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-sort-alpha-down me-2"></i>排序
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-dark">
-                                    <li><a class="dropdown-item {% if request.args.get('sort') == 'name' %}active{% endif %}" 
-                                           href="?sort=name"><i class="fas fa-font me-2"></i>名称</a></li>
-                                    <li><a class="dropdown-item {% if request.args.get('sort') == 'size' %}active{% endif %}" 
-                                           href="?sort=size"><i class="fas fa-weight-hanging me-2"></i>大小</a></li>
-                                    <li><a class="dropdown-item {% if request.args.get('sort') == 'modified' %}active{% endif %}" 
-                                           href="?sort=modified"><i class="fas fa-clock me-2"></i>修改时间</a></li>
-                                </ul>
-                            </div>
+                        <div class="dropdown mb-2">
+                            <button class="btn btn-purple dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="fas fa-sort-alpha-down me-2"></i>排序
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-dark">
+                                <li><a class="dropdown-item {% if request.args.get('sort') == 'name' %}active{% endif %}" 
+                                       href="?sort=name"><i class="fas fa-font me-2"></i>名称</a></li>
+                                <li><a class="dropdown-item {% if request.args.get('sort') == 'size' %}active{% endif %}" 
+                                       href="?sort=size"><i class="fas fa-weight-hanging me-2"></i>大小</a></li>
+                                <li><a class="dropdown-item {% if request.args.get('sort') == 'modified' %}active{% endif %}" 
+                                       href="?sort=modified"><i class="fas fa-clock me-2"></i>修改时间</a></li>
+                            </ul>
                         </div>                                
                         </div>
                     </div>

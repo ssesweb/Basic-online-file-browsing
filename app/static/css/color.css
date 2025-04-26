@@ -1,0 +1,151 @@
+/* ===== 基础颜色定义 ===== */
+:root {
+    /* 日间模式 */
+    --primary-color: #2D8CFF;
+    --background-color: #FFFFFF;
+    --background-secondary: #F5F8FB;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --border-color: #E0E0E0;
+    --success-color: #52C41A;
+    --warning-color: #FAAD14;
+    --error-color: #FF4D4F;
+    --disabled-bg: #F0F0F0;
+    --disabled-text: #BFBFBF;
+  
+    /* 夜间模式 */
+    --dark-background-color: #141414;
+    --dark-background-secondary: #1F1F1F;
+    --dark-text-primary: #E0E0E0;
+    --dark-text-secondary: #A0A0A0;
+    --dark-border-color: #303030;
+    --dark-disabled-bg: #2A2A2A;
+    --dark-disabled-text: #555555;
+    --dark-success-color: #73D13D;
+    --dark-warning-color: #FFC53D;
+    --dark-error-color: #FF7875;
+  }
+  
+  /* ===== 按钮样式 ===== */
+  .button-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.6em 1.2em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .button-primary:hover {
+    background-color: #1A73E8;
+  }
+  
+  .button-secondary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 1px solid var(--primary-color);
+    padding: 0.6em 1.2em;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .button-disabled {
+    background-color: var(--disabled-bg);
+    color: var(--disabled-text);
+    cursor: not-allowed;
+  }
+  
+  /* ===== 表单输入框 ===== */
+  .input {
+    width: 100%;
+    padding: 0.5em;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    color: var(--text-primary);
+    background-color: var(--background-secondary);
+    transition: border-color 0.3s;
+  }
+  
+  .input:focus {
+    border-color: var(--primary-color);
+    outline: none;
+  }
+  
+  /* ===== 表格样式 ===== */
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--background-color);
+  }
+  
+  .table th, .table td {
+    border: 1px solid var(--border-color);
+    padding: 0.75em;
+    text-align: left;
+    color: var(--text-primary);
+  }
+  
+  .table th {
+    background-color: var(--background-secondary);
+  }
+  
+  /* ===== 标签（Tag）样式 ===== */
+  .tag {
+    display: inline-block;
+    padding: 0.3em 0.6em;
+    border-radius: 4px;
+    font-size: 0.85em;
+    font-weight: 500;
+    color: #fff;
+  }
+  
+  .tag-success {
+    background-color: var(--success-color);
+  }
+  
+  .tag-warning {
+    background-color: var(--warning-color);
+  }
+  
+  .tag-error {
+    background-color: var(--error-color);
+  }
+  
+  /* ===== 夜间模式覆盖 ===== */
+  body.dark-mode {
+    background-color: var(--dark-background-color);
+    color: var(--dark-text-primary);
+  }
+  
+  body.dark-mode .button-primary {
+    background-color: var(--primary-color);
+  }
+  
+  body.dark-mode .input {
+    background-color: var(--dark-background-secondary);
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+  }
+  
+  body.dark-mode .table {
+    background-color: var(--dark-background-secondary);
+  }
+  
+  body.dark-mode .table th, body.dark-mode .table td {
+    border-color: var(--dark-border-color);
+    color: var(--dark-text-primary);
+  }
+  
+  body.dark-mode .tag-success {
+    background-color: var(--dark-success-color);
+  }
+  
+  body.dark-mode .tag-warning {
+    background-color: var(--dark-warning-color);
+  }
+  
+  body.dark-mode .tag-error {
+    background-color: var(--dark-error-color);
+  }
+  
