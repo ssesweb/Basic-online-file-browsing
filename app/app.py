@@ -28,65 +28,19 @@ def index():
     # 获取系统盘符
     drives = [f"{d}:\\" for d in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' if os.path.exists(f"{d}:\\")]
     
-    # 获取真实的系统文件夹路径
-    import winreg
-    # 扩展更多系统文件夹
-    system_folders = {
-        '桌面': '{B4BFCC3A-DB2C-424C-B029-7FE99A87C641}',
-        '文档': '{F42EE2D3-909F-4907-8871-4C22FC0BF756}',
-        '下载': '{374DE290-123F-4565-9164-39C4925E467B}',
-        '图片': '{3ADD1653-EB32-4CB0-BBD7-DFA0ABB5ACCA}',
-        '音乐': '{4BD8D571-6D19-48D3-BE97-422220080E43}',
-        '视频': '{18989B1D-99B5-455B-841C-AB7C74E4DDFC}',
-        'OneDrive': '{8C5C7F1B-E08F-4FBA-9A28-E64B3E7D72FB}',
-        '收藏夹': '{1777F761-68AD-4D8A-87BD-30B759FA33DD}',
-        '联系人': '{56784854-C6CB-462B-8169-88E350ACB882}',
-        '图片收藏': '{0ddd015d-b06c-45d5-8c4c-f59713856039}'
-    }
-
+    # 获取系统文件夹路径 - 使用多方法组合
+    from get_sy_folders import get_system_folder
+    
+    system_folders = [
+        '桌面', '文档', '下载', '图片', '音乐', '视频', 'OneDrive'
+    ]
+    
     valid_folders = {}
     try:
-        # 同时检查32位和64位注册表路径
-        reg_paths = [
-            r"Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders",
-            r"Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders"
-        ]
-        
-        for reg_path in reg_paths:
-            try:
-                with winreg.OpenKey(winreg.HKEY_CURRENT_USER, reg_path) as key:
-                    for name, guid in system_folders.items():
-                        try:
-                            path = winreg.QueryValueEx(key, guid)[0]
-                            path = os.path.expandvars(path)
-                            if os.path.exists(path) and name not in valid_folders:
-                                valid_folders[name] = path
-                        except WindowsError:
-                            continue
-            except FileNotFoundError:
-                continue
-
-        # 补充回退方案
-        default_folders = {
-            '桌面': ['Desktop', '桌面'],
-            '文档': ['Documents', '我的文档'],
-            '下载': ['Downloads', '下载'],
-            '图片': ['Pictures', '我的图片'],
-            '音乐': ['Music', '我的音乐'],
-            '视频': ['Videos', '我的视频'],
-            'OneDrive': ['OneDrive'],
-            '收藏夹': ['Links'],
-            '联系人': ['Contacts']
-        }
-
-        for name, variants in default_folders.items():
-            if name not in valid_folders:
-                for folder_name in variants:
-                    path = os.path.join(os.path.expanduser('~'), folder_name)
-                    if os.path.exists(path):
-                        valid_folders[name] = path
-                        break
-
+        for name in system_folders:
+            path = get_system_folder(name)
+            if path:
+                valid_folders[name] = path
     except Exception as e:
         print(f"路径获取失败: {e}")
     
@@ -141,6 +95,7 @@ def browse(dirpath):
 
 # 视频缩略图生成函数
 def generate_video_thumbnail(video_path):
+    import os
     try:
         # 创建缩略图目录
         thumbnails_dir = os.path.join(app.root_path, 'static', 'thumbnails')
