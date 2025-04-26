@@ -48,8 +48,8 @@
         
         <!-- 修改侧边栏关闭按钮 -->
         <div class="col-lg-3 col-xl-2 collapse-horizontal collapse show" id="sidebar">
-            <div class="card shadow-lg me-2 h-100 d-flex flex-column" style="background-color: var(--background-secondary); border-color: var(--primary-color);">
-                <div class="card-header d-flex justify-content-between align-items-center" style="background-color: var(--primary-color); color: var(--background-color);">
+            <div class="card shadow-lg me-2 h-100 d-flex flex-column" style="background-color: var(--background-color); border-color: var(--primary-color);">
+                <div class="card-header d-flex justify-content-between align-items-center" style="background-color: var(--primary-color); color: var(--text-primary);">
                     <span><i class="fas fa-folder-tree me-2"></i>目录导航</span>
                     <button class="btn btn-link p-0" style="color: var(--background-color);" 
                             data-bs-toggle="collapse" 
@@ -225,7 +225,7 @@
                                             <i class="fas {{ get_file_icon(file.name) }} text-{{ get_file_color(file.name) }} fa-2x mb-2"></i>
                                             {% endif %}
                                         {% endif %}
-                                        <h6 class="card-title text-truncate mt-2" title="{{ file.name }}">{{ file.name }}</h6>
+                                        <h6 class="card-title text-truncate mt-2" title="{{ file.name }}" style="color: var(--text-primary);">{{ file.name }}</h6>
                                     </div>
                                     
                                     <!-- 文件操作按钮 -->
@@ -267,7 +267,7 @@
    <i class="fas fa-download"></i>
 </a>
 </div>
-<h6 class="card-title text-truncate mt-2" title="{{ file.name }}">{{ file.name }}</h6>
+<h6 class="card-title text-truncate mt-2" title="{{ file.name }}" style="color: var(--text-primary);">{{ file.name }}</h6>
 </div>
 </div>
 </div>

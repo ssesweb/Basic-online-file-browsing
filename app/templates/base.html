@@ -23,6 +23,22 @@
             background-color: transparent;
             padding: 0.75rem 1rem;
         }
+        
+        /* 主题切换按钮样式 */
+        .theme-toggle {
+            color: var(--text-color);
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .theme-toggle:hover {
+            opacity: 0.8;
+        }
+        
+        .theme-toggle i {
+            margin-right: 5px;
+        }
     </style>
     <!-- 在head的style标签中添加 -->
     <style>
@@ -53,7 +69,7 @@
         </nav>
     </header>
 
-    <main class="container-fluid py-3">
+    <main class="container-fluid py-3" style="background-color: var(--background-color);">
         {% block content %}{% endblock %}
     </main>
 
@@ -91,7 +107,7 @@
                 document.body.classList.toggle('dark-mode', isDark);
                 
                 if (themeIcon) {
-                    themeIcon.className = `fa-solid ${isDark ? 'fa-sun' : 'fa-moon'} fa-fw`;
+                    themeIcon.className = isDark ? 'fa-solid fa-sun fa-fw' : 'fa-solid fa-moon fa-fw';
                 }
                 if (themeText) {
                     themeText.textContent = isDark ? '日间模式' : '夜间模式';

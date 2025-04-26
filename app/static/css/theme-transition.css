@@ -41,8 +41,8 @@ body.dark-mode .modal-content {
 }
 
 /* 深色模式下的导航栏 */
-body.dark-mode .navbar {
-    background-color: var(--dark-background-secondary) !important;
+body.dark-mode nav.navbar-dark {
+    background-color: var(--dark-background-secondary);
 }
 
 /* 深色模式下的列表项 */
@@ -67,8 +67,8 @@ body.dark-mode .dropdown-item:hover {
 }
 
 /* 深色模式下的导航栏和面包屑样式 */
-body.dark-mode nav.navbar {
-    background-color: var(--dark-background-secondary) !important;
+body.dark-mode nav.navbar-dark {
+    background-color: var(--dark-background-secondary);
     border-color: var(--dark-border-color);
 }
 
