@@ -1,0 +1,39 @@
+/* 文件项显示样式 */
+
+/* 优化文件夹列表项的显示 */
+.list-group-item.file-item {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    margin: 2px 0;
+}
+
+.file-item {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 文件项悬停效果 */
+.file-item:hover {
+    background-color: var(--background-secondary);
+}
+
+/* 文件图标样式 */
+.file-icon {
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+}
+
+/* 文件名称样式 */
+.file-name {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 文件大小和操作按钮样式 */
+.file-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}

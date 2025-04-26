@@ -1,0 +1,40 @@
+/* 动画效果 */
+
+/* 添加动画效果 */
+.animate__animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+
+.animate__pulse {
+    animation-name: pulse;
+}
+
+.animate__infinite {
+    animation-iteration-count: infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale3d(1, 1, 1);
+    }
+    50% {
+        transform: scale3d(1.1, 1.1, 1.1);
+    }
+    100% {
+        transform: scale3d(1, 1, 1);
+    }
+}
+
+/* 过渡效果 */
+.fade-transition {
+    transition: opacity 0.3s ease;
+}
+
+.scale-transition {
+    transition: transform 0.3s ease;
+}
+
+.scale-transition:hover {
+    transform: scale(1.05);
+}

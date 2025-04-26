@@ -12,6 +12,18 @@
     --error-color: #FF4D4F;
     --disabled-bg: #F0F0F0;
     --disabled-text: #BFBFBF;
+    
+    /* 主题切换按钮 */
+    --theme-btn-bg: transparent;
+    --theme-btn-border: var(--primary-color);
+    --theme-btn-hover: rgba(45, 140, 255, 0.1);
+    --theme-icon-color: var(--primary-color);
+    
+    /* 关闭按钮过滤器 - 亮色模式 */
+    --btn-close-filter: none;
+    
+    /* 过渡动画时间 */
+    --transition-time: 0.3s;
   
     /* 夜间模式 */
     --dark-background-color: #141414;
@@ -24,6 +36,15 @@
     --dark-success-color: #73D13D;
     --dark-warning-color: #FFC53D;
     --dark-error-color: #FF7875;
+    
+    /* 夜间模式按钮 */
+    --dark-theme-btn-bg: transparent;
+    --dark-theme-btn-border: #E0E0E0;
+    --dark-theme-btn-hover: rgba(224, 224, 224, 0.1);
+    --dark-theme-icon-color: #E0E0E0;
+    
+    /* 关闭按钮过滤器 - 暗色模式 */
+    --dark-btn-close-filter: invert(1) grayscale(100%) brightness(200%);
   }
   
   /* ===== 按钮样式 ===== */
@@ -41,7 +62,29 @@
     background-color: #1A73E8;
   }
   
-  .button-secondary {
+  /* 主题切换按钮样式 */
+.theme-toggle {
+    background: var(--theme-btn-bg);
+    border: 1px solid var(--theme-btn-border);
+    color: var(--theme-icon-color);
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 24px;
+}
+
+.theme-toggle:hover {
+    background: var(--theme-btn-hover);
+    transform: translateY(-1px);
+}
+
+.dark-mode {
+    --theme-btn-bg: var(--dark-theme-btn-bg);
+    --theme-btn-border: var(--dark-theme-btn-border);
+    --theme-btn-hover: var(--dark-theme-btn-hover);
+    --theme-icon-color: var(--dark-theme-icon-color);
+}
+
+.button-secondary {
     background-color: transparent;
     color: var(--primary-color);
     border: 1px solid var(--primary-color);

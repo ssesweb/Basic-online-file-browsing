@@ -1,0 +1,117 @@
+/* 主题过渡动画和深色模式样式增强 */
+
+/* 全局过渡效果 */
+body {
+    transition: background-color var(--transition-time) ease, color var(--transition-time) ease;
+}
+
+/* 所有元素添加过渡效果 */
+.card,
+.modal-content,
+.list-group-item,
+.btn,
+.breadcrumb,
+.navbar,
+.dropdown-menu,
+.modal-header,
+.modal-body,
+.modal-footer {
+    transition: background-color var(--transition-time) ease, 
+                color var(--transition-time) ease, 
+                border-color var(--transition-time) ease, 
+                box-shadow var(--transition-time) ease;
+}
+
+/* 深色模式样式覆盖 */
+body.dark-mode {
+    background-color: var(--dark-background-color);
+    color: var(--dark-text-primary);
+}
+
+/* 深色模式下的按钮关闭图标 */
+body.dark-mode .btn-close {
+    filter: var(--dark-btn-close-filter);
+}
+
+/* 深色模式下的卡片和模态框 */
+body.dark-mode .card,
+body.dark-mode .modal-content {
+    background-color: var(--dark-background-secondary);
+    border-color: var(--dark-border-color);
+}
+
+/* 深色模式下的导航栏 */
+body.dark-mode .navbar {
+    background-color: var(--dark-background-secondary) !important;
+}
+
+/* 深色模式下的列表项 */
+body.dark-mode .list-group-item {
+    background-color: var(--dark-background-secondary);
+    color: var(--dark-text-primary);
+    border-color: var(--dark-border-color);
+}
+
+/* 深色模式下的下拉菜单 */
+body.dark-mode .dropdown-menu {
+    background-color: var(--dark-background-secondary);
+    border-color: var(--dark-border-color);
+}
+
+body.dark-mode .dropdown-item {
+    color: var(--dark-text-primary);
+}
+
+body.dark-mode .dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 深色模式下的导航栏和面包屑样式 */
+body.dark-mode nav.navbar {
+    background-color: var(--dark-background-secondary) !important;
+    border-color: var(--dark-border-color);
+}
+
+body.dark-mode .breadcrumb {
+    background-color: var(--dark-background-secondary) !important;
+    border-color: var(--dark-border-color);
+}
+
+body.dark-mode .breadcrumb-item,
+body.dark-mode .breadcrumb-item a {
+    color: var(--dark-text-primary);
+}
+
+body.dark-mode .breadcrumb-item.active {
+    color: var(--dark-text-secondary);
+}
+
+/* 深色模式下的视频模态框样式 */
+body.dark-mode #videoModal .modal-content {
+    background-color: var(--dark-background-secondary);
+    border-color: var(--dark-border-color);
+}
+
+body.dark-mode #videoModal .modal-body {
+    background-color: #000;
+}
+
+/* 主题切换按钮动画 */
+#themeToggle {
+    transition: transform 0.2s ease, background-color 0.3s ease, color 0.3s ease;
+}
+
+#themeToggle:hover {
+    transform: scale(1.1);
+}
+
+#themeToggle:active {
+    transform: scale(0.95);
+}
+
+/* 深色模式下的主题切换按钮 */
+body.dark-mode #themeToggle {
+    background-color: var(--dark-background-secondary);
+    color: var(--dark-text-primary);
+    border: 1px solid var(--dark-border-color);
+}

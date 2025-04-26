@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 import os
 import subprocess
 import tempfile
@@ -118,6 +118,22 @@ def browse(dirpath):
                     'modified': os.path.getmtime(full_path),
                     'thumbnail': thumbnail_path
                 })
+        
+        # 根据用户选择的排序方式对文件列表进行排序
+        sort_by = request.args.get('sort', 'name')  # 默认按名称排序
+        sort_dir = request.args.get('dir', 'asc')  # 默认升序
+        reverse_sort = sort_dir == 'desc'
+        
+        if sort_by == 'name':
+            files.sort(key=lambda x: x['name'].lower(), reverse=reverse_sort)
+        elif sort_by == 'size':
+            files.sort(key=lambda x: x['size'], reverse=reverse_sort)
+        elif sort_by == 'modified':
+            files.sort(key=lambda x: x['modified'], reverse=not reverse_sort if sort_dir == 'asc' else reverse_sort)
+            
+        # 按名称排序目录
+        dirs.sort(key=lambda x: x['name'].lower())
+            
         return render_template('browse.html', dirs=dirs, files=files, current_path=dirpath)
     except Exception as e:
         return str(e), 404
