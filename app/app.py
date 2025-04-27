@@ -166,6 +166,34 @@ def download(filepath):
         response.headers['Content-Type'] = MIME_MAP[ext]
     return response
 
+@app.route('/play_video/<path:filepath>')
+def play_video(filepath):
+    """视频播放页面"""
+    try:
+        directory, filename = os.path.split(filepath)
+        # 自动获取当前路径
+        current_path = os.path.dirname(filepath)
+        
+        # 获取文件信息
+        file_stats = os.stat(filepath)
+        filesize = file_stats.st_size
+        modified = file_stats.st_mtime
+        
+        # 获取MIME类型
+        ext = filename.split('.')[-1].lower()
+        mime_type = MIME_MAP.get(ext, 'video/mp4')
+        
+        return render_template('video_player.html', 
+                              filepath=filepath,
+                              filename=filename,
+                              directory=directory,
+                              filesize=filesize,
+                              modified=modified,
+                              mime_type=mime_type,
+                              current_path=current_path)                              
+    except Exception as e:
+        return str(e), 404
+
 @app.route('/thumbnail/<path:filepath>')
 def thumbnail(filepath):
     """提供视频缩略图"""
@@ -274,4 +302,4 @@ if __name__ == '__main__':
     print(f"操你妈终于找到能用的端口：{port}")
     
     # 必须关掉debug模式的重载器，不然又他妈会检测两次
-    app.run(host='0.0.0.0', port=port, debug=True, use_reloader=False)
+    app.run(host='0.0.0.0', port=port, debug=True, use_reloader=True)

@@ -1,0 +1,219 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- 视频播放页面容器 -->
+<div class="container-fluid min-vh-100" style="background-color: var(--background-color); color: var(--text-primary);" data-bs-theme="auto">
+    <!-- 面包屑导航 -->
+    <nav aria-label="breadcrumb" class="pt-3">
+        <ol class="breadcrumb p-3 rounded-3" style="background-color: var(--background-secondary); border-color: var(--primary-color);">
+            <li class="breadcrumb-item">
+                <a href="{{ url_for('index') }}" style="color: var(--primary-color);"><i class="fas fa-home"></i></a>
+            </li>
+            {% set parts = [] %}
+            {% for part in current_path.split('\\') if part %}
+                {% if loop.first %}
+                    {% set _ = parts.append(part + '\\') %}
+                {% else %}
+                    {% set _ = parts.append(part) %}
+                {% endif %}
+            {% endfor %}
+            
+            {% for part in parts %}
+                <li class="breadcrumb-item {% if not loop.last %}active{% endif %}">
+                    {% if loop.last %}
+                        {{ part }}
+                    {% else %}
+                        <a href="{{ url_for('browse', dirpath=parts[:loop.index]|join('\\')) }}">
+                            {{ part }}
+                            {% if loop.first %}<i class="fas fa-level-up-alt ms-1"></i>{% endif %}
+                        </a>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ol>
+    </nav>
+    
+    <!-- 视频播放区域 -->
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10 col-xl-8">
+            <div class="card shadow-lg mb-4" style="background-color: var(--background-secondary); border-color: var(--primary-color);">
+                <div class="card-header d-flex justify-content-between align-items-center" style="background-color: var(--primary-color); color: var(--text-primary);">
+                    <h5 class="mb-0"><i class="fas fa-film me-2"></i>{{ filename }}</h5>
+                    <a href="{{ url_for('download', filepath=filepath) }}" class="btn btn-sm btn-outline-light">
+                        <i class="fas fa-download me-1"></i>下载
+                    </a>
+                </div>
+                <div class="card-body p-0 bg-dark">
+                    <!-- 视频播放器 -->
+                    <div class="position-relative video-container">
+                        <video id="mainVideo" class="w-100" controls autoplay style="max-height: 70vh;">
+                            <source src="{{ url_for('download', filepath=filepath) }}" type="{{ mime_type }}">
+                            您的浏览器不支持HTML5视频播放。
+                        </video>
+                        
+                        <!-- 视频控制覆盖层 -->
+                        <div class="video-controls-overlay position-absolute bottom-0 start-0 w-100 p-3 d-none">
+                            <div class="d-flex align-items-center justify-content-between">
+                                <div>
+                                    <button class="btn btn-sm btn-light me-2" id="playPauseBtn">
+                                        <i class="fas fa-play"></i>
+                                    </button>
+                                    <span class="text-light" id="timeDisplay">00:00</span>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-volume-up text-light me-2"></i>
+                                    <input type="range" class="form-range" id="volumeSlider" min="0" max="1" step="0.1" value="1" style="width: 100px;">
+                                    <button class="btn btn-sm btn-light ms-3" id="fullscreenBtn">
+                                        <i class="fas fa-expand"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="progress mt-2" style="height: 5px;">
+                                <div class="progress-bar bg-primary" id="progressBar" role="progressbar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer" style="background-color: var(--background-secondary);">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-muted">文件大小: {{ filesize|filesizeformat }}</small>
+                        </div>
+                        <div>
+                            <button class="btn btn-sm btn-outline-secondary" id="toggleControlsBtn">
+                                <i class="fas fa-sliders-h me-1"></i>显示/隐藏控制面板
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 文件信息卡片 -->
+            <div class="card shadow-sm mb-4" style="background-color: var(--background-secondary); border-color: var(--primary-color);">
+                <div class="card-header" style="background-color: var(--primary-color); color: var(--text-primary);">
+                    <i class="fas fa-info-circle me-2"></i>文件信息
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p><strong>文件名:</strong> {{ filename }}</p>
+                            <p><strong>文件类型:</strong> {{ mime_type }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>文件大小:</strong> {{ filesize|filesizeformat }}</p>
+                            <p><strong>修改时间:</strong> {{ modified|datetime }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 视频播放器样式 -->
+<style>
+.video-container {
+    position: relative;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.video-controls-overlay {
+    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    transition: opacity 0.3s ease;
+}
+
+#mainVideo:hover + .video-controls-overlay,
+.video-controls-overlay:hover {
+    display: block !important;
+    opacity: 1;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .video-controls-overlay {
+        padding: 0.5rem;
+    }
+    
+    #volumeSlider {
+        width: 60px;
+    }
+}
+</style>
+
+<!-- 视频播放器脚本 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const video = document.getElementById('mainVideo');
+    const playPauseBtn = document.getElementById('playPauseBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const timeDisplay = document.getElementById('timeDisplay');
+    const progressBar = document.getElementById('progressBar');
+    const controlsOverlay = document.querySelector('.video-controls-overlay');
+    const toggleControlsBtn = document.getElementById('toggleControlsBtn');
+    
+    // 播放/暂停按钮
+    playPauseBtn.addEventListener('click', () => {
+        if (video.paused) {
+            video.play();
+            playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        } else {
+            video.pause();
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+        }
+    });
+    
+    // 全屏按钮
+    fullscreenBtn.addEventListener('click', () => {
+        if (video.requestFullscreen) {
+            video.requestFullscreen();
+        } else if (video.webkitRequestFullscreen) { /* Safari */
+            video.webkitRequestFullscreen();
+        } else if (video.msRequestFullscreen) { /* IE11 */
+            video.msRequestFullscreen();
+        }
+    });
+    
+    // 音量控制
+    volumeSlider.addEventListener('input', (e) => {
+        video.volume = e.target.value;
+    });
+    
+    // 时间显示更新
+    video.addEventListener('timeupdate', () => {
+        // 更新时间显示
+        const minutes = Math.floor(video.currentTime / 60);
+        const seconds = Math.floor(video.currentTime % 60);
+        timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        
+        // 更新进度条
+        const percentage = (video.currentTime / video.duration) * 100;
+        progressBar.style.width = `${percentage}%`;
+    });
+    
+    // 播放状态变化
+    video.addEventListener('play', () => {
+        playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+    });
+    
+    video.addEventListener('pause', () => {
+        playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+    });
+    
+    // 控制面板显示/隐藏
+    toggleControlsBtn.addEventListener('click', () => {
+        controlsOverlay.classList.toggle('d-none');
+    });
+    
+    // 移动设备触摸支持
+    video.addEventListener('touchstart', () => {
+        if (controlsOverlay.classList.contains('d-none')) {
+            controlsOverlay.classList.remove('d-none');
+        } else {
+            controlsOverlay.classList.add('d-none');
+        }
+    });
+});
+</script>
+{% endblock %}

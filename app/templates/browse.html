@@ -198,27 +198,20 @@
                                                          data-bs-target="#videoModal"
                                                          data-video-src="{{ url_for('download', filepath=os.path.join(current_path, file.name)) }}"
                                                          onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDAiIGZpbGw9IiM2YzZjNmMiLz48cGF0aCBkPSJNNDAgMzBMNzAgNTAgNDAgNzB6IiBmaWxsPSIjZmZmIi8+PC9zdmc+';">
-                                                    <!-- 修改后的视频播放覆盖层 -->
-                                                    <div class="video-play-overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
-                                                         data-video-src="{{ url_for('download', filepath=os.path.join(current_path, file.name)) }}">
+                                                    <!-- 修改后的视频播放覆盖层 - 改为链接到视频播放页面 -->
+                                                    <a href="{{ url_for('play_video', filepath=os.path.join(current_path, file.name)) }}" 
+                                                       class="video-play-overlay position-absolute top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center">
                                                         <i class="fas fa-play-circle text-light fa-3x"></i>
-                                                        <video class="d-none" 
-                                                               controls 
-                                                               src="{{ url_for('download', filepath=os.path.join(current_path, file.name)) }}">
-                                                        </video>
-                                                    </div>
+                                                    </a>
                                                 </div>
                                                 {% else %}
-                                                <!-- 如果没有缩略图，显示视频播放器占位符 -->
-                                                <div class="position-relative video-fallback-container" 
-                                                     data-video-src="{{ url_for('download', filepath=os.path.join(current_path, file.name)) }}"
-                                                     data-bs-toggle="modal"
-                                                     data-bs-target="#videoModal"
-                                                     onclick="prepareVideoModal(this.getAttribute('data-video-src'))">
+                                                <!-- 如果没有缩略图，显示视频播放器占位符 - 改为链接到视频播放页面 -->
+                                                <a href="{{ url_for('play_video', filepath=os.path.join(current_path, file.name)) }}" 
+                                                   class="position-relative video-fallback-container text-decoration-none">
                                                     <div class="d-flex justify-content-center align-items-center bg-dark rounded" style="height: 150px;">
                                                         <i class="fas fa-play-circle text-light fa-3x"></i>
                                                     </div>
-                                                </div>
+                                                </a>
                                                 {% endif %}
                                             </div>
                                             {% else %}
@@ -230,7 +223,7 @@
                                     
                                     <!-- 文件操作按钮 -->
                                     <div class="mt-2">
-                                        <a href="{{ url_for('download', filepath=os.path.join(current_path, file.name)) }}" 
+                                        <a href="{{ url_for('play_video', filepath=os.path.join(current_path, file.name)) }}" 
                                            class="btn btn-sm btn-outline-secondary">
                                             <i class="fas fa-download me-1"></i>下载
                                         </a>
@@ -542,30 +535,6 @@ transform: translateY(0);
 
 
 {% endblock %}  <!-- Correctly placed after ALL template content -->
-
-<!-- 更新侧边栏状态跟踪脚本 -->
-<script>
-document.getElementById('sidebar').addEventListener('hidden.bs.collapse', function () {
-    localStorage.setItem('sidebarCollapsed', 'true');
-    document.querySelector('[data-bs-target="#sidebar"]').style.display = 'block';
-});
-
-document.getElementById('sidebar').addEventListener('shown.bs.collapse', function () {
-    localStorage.removeItem('sidebarCollapsed');
-    document.querySelector('[data-bs-target="#sidebar"]').style.display = 'none';
-});
-
-// 初始化侧边栏状态
-document.addEventListener('DOMContentLoaded', () => {
-    const sidebarToggle = document.querySelector('[data-bs-target="#sidebar"]');
-    if(localStorage.getItem('sidebarCollapsed') === 'true') {
-        new bootstrap.Collapse(document.getElementById('sidebar'), {toggle: false});
-        sidebarToggle.style.display = 'block';
-    } else {
-        sidebarToggle.style.display = 'none';
-    }
-});
-</script>
 
 <!-- 添加主题切换按钮 -->
 <button id="themeToggle" class="btn position-fixed bottom-0 end-0 m-3 rounded-circle" 
