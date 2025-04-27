@@ -36,7 +36,7 @@ body.dark-mode .btn-close {
 /* 深色模式下的卡片和模态框 */
 body.dark-mode .card,
 body.dark-mode .modal-content {
-    background-color: var(--dark-background-secondary);
+    background-color: var(--card-bg);
     border-color: var(--dark-border-color);
 }
 
@@ -114,4 +114,18 @@ body.dark-mode #themeToggle {
     background-color: var(--dark-background-secondary);
     color: var(--dark-text-primary);
     border: 1px solid var(--dark-border-color);
+}
+
+
+/* 文件夹图标样式 */
+.fa-folder-open {
+    color: var(--folder-icon-color);
+    filter: drop-shadow(var(--folder-icon-shadow));
+    transition: color var(--transition-time) ease, filter var(--transition-time) ease;
+}
+
+/* 深色模式图标增强 */
+body.dark-mode .fa-folder-open {
+    color: var(--folder-icon-color);
+    filter: drop-shadow(var(--folder-icon-shadow));
 }
