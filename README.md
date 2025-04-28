@@ -67,12 +67,12 @@ python app/app.py
 MIT License
 
 ## 界面预览
-[首页浏览](Resource\首页截图.png)
+![首页浏览](Resource\首页截图.png)
 ### 文件浏览界面
-[文件浏览][Resource\文件浏览视图.png]
+![文件浏览](Resource\文件浏览视图.png)
 
 ### 视频播放界面
-[视频播放](Resource\视频视图.png)
+![视频播放](Resource\视频视图.png)
 
 ### 移动端适配
-[移动端](Resource\移动端.png)
+![移动端](Resource\移动端.png)
