@@ -46,7 +46,7 @@
                 <div class="card-body p-0 bg-dark">
                     <!-- 视频播放器 -->
                     <div class="position-relative video-container">
-                        <video id="mainVideo" class="w-100" controls autoplay style="max-height: 70vh;">
+                        <video id="mainVideo" class="w-100" autoplay style="max-height: 70vh;">
                             <source src="{{ url_for('download', filepath=filepath) }}" type="{{ mime_type }}">
                             您的浏览器不支持HTML5视频播放。
                         </video>
@@ -58,7 +58,9 @@
                                     <button class="btn btn-sm btn-light me-2" id="playPauseBtn">
                                         <i class="fas fa-play"></i>
                                     </button>
-                                    <span class="text-light" id="timeDisplay">00:00</span>
+                                    <span class="text-light me-2" id="timeDisplay">00:00</span>
+<span class="text-light">/</span>
+<span class="text-light ms-2" id="durationDisplay">00:00</span>
                                 </div>
                                 <div class="d-flex align-items-center">
                                     <i class="fas fa-volume-up text-light me-2"></i>
@@ -90,10 +92,21 @@
             
             <!-- 文件信息卡片 -->
             <div class="card shadow-sm mb-4" style="background-color: var(--background-secondary); border-color: var(--primary-color);">
-                <div class="card-header" style="background-color: var(--primary-color); color: var(--text-primary);">
+                <!-- 文件信息卡片头部 -->
+                <div class="card-header">
                     <i class="fas fa-info-circle me-2"></i>文件信息
                 </div>
-                <div class="card-body">
+                
+                <!-- 文件信息卡片页脚 -->
+                <div class="card-footer">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small>文件大小: {{ filesize|filesizeformat }}</small>
+                        </div>
+                        <!-- 控制面板按钮保持不变 -->
+                    </div>
+                </div>
+                <div class="card-body" style="background-color: var(--background-secondary); color: var(--text-primary);">
                     <div class="row">
                         <div class="col-md-6">
                             <p><strong>文件名:</strong> {{ filename }}</p>
@@ -109,7 +122,7 @@
         </div>
     </div>
 </div>
-
+<link rel="stylesheet" href="/static/css/color.css">
 <!-- 视频播放器样式 -->
 <style>
 .video-container {
@@ -119,25 +132,8 @@
 }
 
 .video-controls-overlay {
-    background: linear-gradient(transparent, rgba(0,0,0,0.7));
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
     transition: opacity 0.3s ease;
-}
-
-#mainVideo:hover + .video-controls-overlay,
-.video-controls-overlay:hover {
-    display: block !important;
-    opacity: 1;
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-    .video-controls-overlay {
-        padding: 0.5rem;
-    }
-    
-    #volumeSlider {
-        width: 60px;
-    }
 }
 </style>
 
@@ -149,6 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const fullscreenBtn = document.getElementById('fullscreenBtn');
     const volumeSlider = document.getElementById('volumeSlider');
     const timeDisplay = document.getElementById('timeDisplay');
+const durationDisplay = document.getElementById('durationDisplay');
     const progressBar = document.getElementById('progressBar');
     const controlsOverlay = document.querySelector('.video-controls-overlay');
     const toggleControlsBtn = document.getElementById('toggleControlsBtn');
@@ -181,16 +178,69 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
     // 时间显示更新
-    video.addEventListener('timeupdate', () => {
-        // 更新时间显示
-        const minutes = Math.floor(video.currentTime / 60);
-        const seconds = Math.floor(video.currentTime % 60);
-        timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        
-        // 更新进度条
-        const percentage = (video.currentTime / video.duration) * 100;
-        progressBar.style.width = `${percentage}%`;
-    });
+    // 初始化视频元数据
+video.addEventListener('loadedmetadata', () => {
+    video.volume = 1;
+    document.getElementById('durationDisplay').textContent = formatTime(video.duration);
+});
+
+// 时间更新事件
+video.addEventListener('timeupdate', () => {
+    const minutes = Math.floor(video.currentTime / 60);
+    const seconds = Math.floor(video.currentTime % 60);
+    timeDisplay.textContent = formatTime(video.currentTime);
+    
+    const percentage = (video.currentTime / video.duration) * 100;
+    progressBar.style.width = `${percentage}%`;
+});
+
+// 全屏状态检测
+function updateFullscreenButton() {
+    const isFullscreen = document.fullscreenElement || 
+                        document.webkitFullscreenElement ||
+                        document.mozFullScreenElement;
+    fullscreenBtn.innerHTML = isFullscreen ? 
+        '<i class="fas fa-compress"></i>' : 
+        '<i class="fas fa-expand"></i>';
+}
+
+document.addEventListener('fullscreenchange', updateFullscreenButton);
+document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+document.addEventListener('mozfullscreenchange', updateFullscreenButton);
+
+// 格式化时间显示
+function formatTime(seconds) {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+// 触摸事件处理
+let touchStartX = 0;
+let touchStartTime = 0;
+video.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+    touchStartTime = Date.now();
+});
+
+video.addEventListener('touchend', (e) => {
+    const deltaX = e.changedTouches[0].clientX - touchStartX;
+    const deltaTime = Date.now() - touchStartTime;
+    
+    // 横向滑动超过50px视为有效操作
+    if (Math.abs(deltaX) > 50) {
+        if (deltaX > 0) {
+            video.currentTime += 10; // 向右滑动快进10秒
+        } else {
+            video.currentTime -= 10; // 向左滑动快退10秒
+        }
+    }
+    
+    // 短按（小于300ms）切换播放状态
+    if (deltaTime < 300) {
+        video[video.paused ? 'play' : 'pause']();
+    }
+});
     
     // 播放状态变化
     video.addEventListener('play', () => {

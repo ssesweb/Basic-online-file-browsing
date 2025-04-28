@@ -28,7 +28,8 @@
         .theme-toggle {
             color: var(--text-color);
             background-color: transparent;
-            border: none;
+            border: 1px solid white;
+            border-radius: 5px;
             cursor: pointer;
         }
         
@@ -58,7 +59,7 @@
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary-color);">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ url_for('index') }}">文件浏览器</a>
+                <a class="navbar-brand" href="{{ url_for('index') }}"><img src="{{ url_for('static', filename='app-icon.png') }}" alt="应用图标" height="30" class="me-2" style="background-color: white; padding: 3px; border-radius: 50%;">文件浏览器</a>
                 <div class="ms-auto">
                     <button id="themeToggle" class="btn theme-toggle">
                         <i id="themeIcon" class="fa-solid fa-moon fa-fw"></i>
