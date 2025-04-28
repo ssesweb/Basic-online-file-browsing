@@ -49,9 +49,32 @@ document.addEventListener('DOMContentLoaded', function() {
     const colsModeLinks = document.querySelectorAll('.cols-mode');
     const gridContainer = document.querySelector('.view-grid');
     
-    // 从本地存储中获取上次选择的列数模式
-    const savedColsMode = localStorage.getItem('colsMode');
-    if (savedColsMode && gridContainer) {
+    // 设置cookie函数
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/";
+    }
+    
+    // 获取cookie函数
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for(let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+    
+    // 从cookie中获取上次选择的列数模式，如果没有则默认为"auto"
+    const savedColsMode = getCookie('colsMode') || localStorage.getItem('colsMode') || "auto";
+    if (gridContainer) {
         applyColsMode(savedColsMode, gridContainer);
         
         // 更新下拉菜单中的选中状态
@@ -80,7 +103,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (gridContainer) {
                 applyColsMode(colsMode, gridContainer);
                 
-                // 保存列数模式到本地存储
+                // 保存列数模式到cookie和本地存储（保留30天）
+                setCookie('colsMode', colsMode, 30);
                 localStorage.setItem('colsMode', colsMode);
             }
         });

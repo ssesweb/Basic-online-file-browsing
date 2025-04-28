@@ -65,7 +65,7 @@
                         {% for dir in dirs %}
                         <a href="{{ url_for('browse', dirpath=dir.path) }}" 
                            class="list-group-item list-group-item-action file-item d-flex align-items-center" style="color: var(--text-primary); background-color: var(--background-color);">
-                            <i class="fas fa-folder me-2 flex-shrink-0" style="color: var(--warning-color);"></i>
+                            <i class="fas fa-folder me-2 flex-shrink-0 file-icon-outline" style="color: var(--warning-color);"></i>
                             <span class="text-truncate">{{ dir.name }}</span>
                         </a>
                         {% endfor %}
@@ -116,9 +116,9 @@
                                     <i class="fas fa-columns me-1"></i>列数
                                 </button>
                                 <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item cols-mode" href="#" data-cols="auto">自动适配</a></li>
                                     <li><a class="dropdown-item cols-mode" href="#" data-cols="1">单列布局</a></li>
                                     <li><a class="dropdown-item cols-mode" href="#" data-cols="2">双列布局</a></li>
-                                    <li><a class="dropdown-item cols-mode" href="#" data-cols="auto">自动适配</a></li>
                                     <li><a class="dropdown-item cols-mode" href="#" data-cols="compact">紧凑模式</a></li>
                                 </ul>
                             </div>
@@ -142,7 +142,7 @@
                         {% for file in files %}
                         <div class="list-group-item file-item d-flex justify-content-between align-items-center">
                             <div>
-                                <i class="fas {{ get_file_icon(file.name) }} text-{{ get_file_color(file.name) }} me-2"></i>
+                                <i class="fas {{ get_file_icon(file.name) }} file-icon-outline file-icon-{{ get_file_color(file.name) }} me-2"></i>
                                 {{ file.name }}
                             </div>
                             <div class="d-flex align-items-center">
@@ -215,7 +215,7 @@
                                                 {% endif %}
                                             </div>
                                             {% else %}
-                                            <i class="fas {{ get_file_icon(file.name) }} text-{{ get_file_color(file.name) }} fa-2x mb-2"></i>
+                                            <i class="fas {{ get_file_icon(file.name) }} file-icon-outline file-icon-{{ get_file_color(file.name) }} fa-2x mb-2"></i>
                                             {% endif %}
                                         {% endif %}
                                         <h6 class="card-title text-truncate mt-2" title="{{ file.name }}" style="color: var(--text-primary);">{{ file.name }}</h6>
@@ -245,6 +245,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/browse-file-items.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/browse-media.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/browse-animations.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/file-icons.css') }}">
 <script src="{{ url_for('static', filename='js/browse.js') }}" defer></script>
 {% endblock %}
 

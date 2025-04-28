@@ -214,44 +214,93 @@ def utility_processor():
 # 新增文件类型颜色映射函数
 def get_file_color(filename):
     ext = os.path.splitext(filename)[1].lower()
-    color_map = {
-        '.pdf': 'danger',
-        '.doc': 'primary',
-        '.docx': 'primary',
-        '.xls': 'success',
-        '.xlsx': 'success',
-        '.ppt': 'warning',
-        '.pptx': 'warning',
-        '.jpg': 'info',
-        '.png': 'info',
-        '.gif': 'info',
-        '.mp4': 'dark',
-        '.avi': 'dark',
-        '.mp3': 'secondary',
-        '.zip': 'secondary',
-        '.rar': 'secondary',
-    }
-    return color_map.get(ext, 'light')
+    # 根据文件类型分组
+    if ext in ['.pdf']:
+        return 'pdf'
+    elif ext in ['.doc', '.docx', '.txt', '.rtf', '.odt']:
+        return 'document'
+    elif ext in ['.xls', '.xlsx', '.csv', '.ods']:
+        return 'spreadsheet'
+    elif ext in ['.ppt', '.pptx', '.odp']:
+        return 'presentation'
+    elif ext in ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.svg', '.webp']:
+        return 'image'
+    elif ext in ['.mp4', '.avi', '.mov', '.mkv', '.flv', '.webm']:
+        return 'video'
+    elif ext in ['.mp3', '.wav', '.ogg', '.flac', '.aac']:
+        return 'audio'
+    elif ext in ['.zip', '.rar', '.7z', '.tar', '.gz', '.bz2']:
+        return 'archive'
+    else:
+        return 'default'
 
-# 文件类型检测函数（保持原有实现）
+# 文件类型检测函数（增强版）
 def get_file_icon(filename):
     ext = os.path.splitext(filename)[1].lower()
+    # 扩展图标映射
     icon_map = {
+        # 文档类
         '.pdf': 'fa-file-pdf',
         '.doc': 'fa-file-word',
         '.docx': 'fa-file-word',
+        '.txt': 'fa-file-alt',
+        '.rtf': 'fa-file-alt',
+        '.odt': 'fa-file-word',
+        
+        # 表格类
         '.xls': 'fa-file-excel',
         '.xlsx': 'fa-file-excel',
+        '.csv': 'fa-file-csv',
+        '.ods': 'fa-file-excel',
+        
+        # 演示文稿
         '.ppt': 'fa-file-powerpoint',
         '.pptx': 'fa-file-powerpoint',
+        '.odp': 'fa-file-powerpoint',
+        
+        # 图像类
         '.jpg': 'fa-file-image',
+        '.jpeg': 'fa-file-image',
         '.png': 'fa-file-image',
         '.gif': 'fa-file-image',
+        '.bmp': 'fa-file-image',
+        '.svg': 'fa-file-image',
+        '.webp': 'fa-file-image',
+        
+        # 视频类
         '.mp4': 'fa-file-video',
         '.avi': 'fa-file-video',
+        '.mov': 'fa-file-video',
+        '.mkv': 'fa-file-video',
+        '.flv': 'fa-file-video',
+        '.webm': 'fa-file-video',
+        
+        # 音频类
         '.mp3': 'fa-file-audio',
+        '.wav': 'fa-file-audio',
+        '.ogg': 'fa-file-audio',
+        '.flac': 'fa-file-audio',
+        '.aac': 'fa-file-audio',
+        
+        # 压缩文件
         '.zip': 'fa-file-archive',
         '.rar': 'fa-file-archive',
+        '.7z': 'fa-file-archive',
+        '.tar': 'fa-file-archive',
+        '.gz': 'fa-file-archive',
+        '.bz2': 'fa-file-archive',
+        
+        # 代码类
+        '.html': 'fa-file-code',
+        '.css': 'fa-file-code',
+        '.js': 'fa-file-code',
+        '.py': 'fa-file-code',
+        '.java': 'fa-file-code',
+        '.php': 'fa-file-code',
+        '.c': 'fa-file-code',
+        '.cpp': 'fa-file-code',
+        '.json': 'fa-file-code',
+        '.xml': 'fa-file-code',
     }
     return icon_map.get(ext, 'fa-file')
 
@@ -295,11 +344,11 @@ def find_available_port(start=5000, end=6000):
                 return port
             except OSError:
                 continue
-    raise OSError("你他妈5000-6000所有端口都被日了！")
+    raise OSError("5000-6000所有端口都被占用了！")
 
 if __name__ == '__main__':
     port = find_available_port()
-    print(f"操你妈终于找到能用的端口：{port}")
+    print(f"终于找到能用的端口：{port} ,不要关闭这个窗口！")
     
     # 必须关掉debug模式的重载器，不然又他妈会检测两次
     app.run(host='0.0.0.0', port=port, debug=True, use_reloader=True)

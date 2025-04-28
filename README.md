@@ -37,42 +37,7 @@ winget install -e --id Gyan.FFmpeg
 ```
 
 2. 启动服务：
-```bash
-# 开发模式（自动重载）
-python app/app.py
 
-# 生产模式
-set FLASK_ENV=production
-python app/app.py
-```
-
-3. 访问服务：
-浏览器打开 http://localhost:5000
-
-### 配置选项（app.py）
-- 缩略图缓存目录：static/thumbnails
-- 端口探测范围：5000-6000
-- 视频格式支持：MP4/AVI/MOV/MKV
-- 最大缓存空间：500MB
-
-## 文档参考
-- API接口文档
-- 项目设计文档
-- 前端后端分离说明
-
-## 贡献指南
-欢迎通过Issues或Pull Request参与贡献
-
-## 许可证
-MIT License
-
-## 界面预览
-![首页浏览](Resource\首页截图.png)
-### 文件浏览界面
-![文件浏览](Resource\文件浏览视图.png)
-
-### 视频播放界面
-![视频播放](Resource\视频视图.png)
-
-### 移动端适配
-![移动端](Resource\移动端.png)
+**最简单启动方式**
+双击运行 `run_user.bat` 文件，按照提示选择模式即可启动服务。
+启动完成后，脚本会显示访问地址 http://localhost:5000 方便用户直接访问服务。
