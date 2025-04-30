@@ -61,11 +61,14 @@ def browse(dirpath):
                     'path': full_path
                 })
             else:
-                # 检查是否为视频文件，如果是则生成缩略图路径
+                # 检查是否为视频文件，如果是则准备缩略图路径（但不立即生成）
                 thumbnail_path = None
                 ext = os.path.splitext(item)[1].lower()
                 if ext in ['.mp4', '.avi', '.mov', '.mkv']:
-                    thumbnail_path = generate_video_thumbnail(full_path)
+                    # 只计算缩略图文件名，不立即生成缩略图
+                    import hashlib
+                    video_hash = hashlib.md5(full_path.encode()).hexdigest()
+                    thumbnail_path = f"{video_hash}.jpg"
                 
                 files.append({
                     'name': item,
@@ -196,10 +199,35 @@ def play_video(filepath):
 
 @app.route('/thumbnail/<path:filepath>')
 def thumbnail(filepath):
-    """提供视频缩略图"""
+    """提供视频缩略图，如果不存在则按需生成"""
     # 从static/thumbnails目录提供缩略图
     thumbnails_dir = os.path.join(app.root_path, 'static', 'thumbnails')
-    return send_from_directory(thumbnails_dir, filepath, mimetype='image/jpeg')
+    thumbnail_path = os.path.join(thumbnails_dir, filepath)
+    
+    # 检查缩略图是否存在，如果不存在则返回占位图
+    if not os.path.exists(thumbnail_path) or os.path.getsize(thumbnail_path) == 0:
+        # 这里不再尝试查找视频文件，而是在前端请求时通过路径参数生成
+        pass
+    
+    # 如果缩略图存在则返回，否则返回404
+    if os.path.exists(thumbnail_path) and os.path.getsize(thumbnail_path) > 0:
+        return send_from_directory(thumbnails_dir, filepath, mimetype='image/jpeg')
+    else:
+        return '', 404
+
+@app.route('/generate_thumbnail')
+def generate_thumbnail():
+    """按需生成视频缩略图"""
+    video_path = request.args.get('video_path')
+    if not video_path or not os.path.exists(video_path):
+        return {'success': False, 'error': '视频文件不存在'}, 404
+        
+    # 生成缩略图
+    thumbnail_filename = generate_video_thumbnail(video_path)
+    if thumbnail_filename:
+        return {'success': True, 'thumbnail': thumbnail_filename}
+    else:
+        return {'success': False, 'error': '生成缩略图失败'}, 500
 
 # 在模板中注册文件类型检测函数
 @app.context_processor
@@ -347,8 +375,22 @@ def find_available_port(start=5000, end=6000):
     raise OSError("5000-6000所有端口都被占用了！")
 
 if __name__ == '__main__':
+    import webbrowser
+    import threading
+    import time
+    
     port = find_available_port()
     print(f"终于找到能用的端口：{port} ,不要关闭这个窗口！")
+    
+    # 创建一个函数，延迟1秒后自动打开浏览器
+    def open_browser():
+        time.sleep(1)
+        url = f"http://localhost:{port}"
+        print(f"正在为您自动打开浏览器，访问地址: {url}")
+        webbrowser.open(url)
+    
+    # 创建线程运行浏览器打开函数
+    threading.Thread(target=open_browser).start()
     
     # 必须关掉debug模式的重载器，不然又他妈会检测两次
     app.run(host='0.0.0.0', port=port, debug=True, use_reloader=True)

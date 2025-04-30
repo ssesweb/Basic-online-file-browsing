@@ -1,5 +1,40 @@
 // 视图切换功能
 document.addEventListener('DOMContentLoaded', function() {
+    // 实现视频缩略图懒加载功能
+    const lazyLoadThumbnails = function() {
+        // 使用Intersection Observer API监测元素是否进入视口
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                // 当元素进入视口时
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    // 将data-src的值赋给src属性，触发图片加载
+                    if (img.dataset.src) {
+                        img.src = img.dataset.src;
+                        // 加载后不再需要观察此元素
+                        observer.unobserve(img);
+                    }
+                }
+            });
+        }, {
+            // 设置根元素为null表示视口
+            root: null,
+            // 元素进入视口20%时触发加载
+            threshold: 0.2,
+            // 视口外100px处开始预加载
+            rootMargin: '100px'
+        });
+
+        // 获取所有带有lazy-thumbnail类的图片元素
+        const lazyImages = document.querySelectorAll('.lazy-thumbnail');
+        lazyImages.forEach(img => {
+            observer.observe(img);
+        });
+    };
+
+    // 初始化懒加载
+    lazyLoadThumbnails();
+    
     // 视图切换按钮
     const viewButtons = document.querySelectorAll('.view-btn');
     const viewList = document.querySelector('.view-list');

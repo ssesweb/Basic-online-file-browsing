@@ -190,8 +190,10 @@
                                                 {% if file.thumbnail %}
                                                 <!-- 显示视频缩略图 - 优化移动设备兼容性 -->
                                                 <div class="position-relative">
-                                                    <img src="{{ url_for('thumbnail', filepath=file.thumbnail) }}" 
-                                                         class="img-thumbnail mb-2 preview-media cursor-zoom"
+                                                    <!-- 使用懒加载方式加载缩略图 -->
+                                                    <img data-src="{{ url_for('thumbnail', filepath=file.thumbnail) }}" 
+                                                         src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCI+PGNpcmNsZSBjeD0iNTAiIGN5PSI1MCIgcj0iNDAiIGZpbGw9IiM2YzZjNmMiLz48cGF0aCBkPSJNNDAgMzBMNzAgNTAgNDAgNzB6IiBmaWxsPSIjZmZmIi8+PC9zdmc+"
+                                                         class="img-thumbnail mb-2 preview-media cursor-zoom lazy-thumbnail"
                                                          alt="{{ file.name }} 缩略图"
                                                          loading="lazy"
                                                          data-bs-toggle="modal"
@@ -247,6 +249,7 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/browse-animations.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/file-icons.css') }}">
 <script src="{{ url_for('static', filename='js/browse.js') }}" defer></script>
+<script src="{{ url_for('static', filename='js/lazy-thumbnails.js') }}" defer></script>
 {% endblock %}
 
 <div class="masonry-grid view-masonry d-none">
