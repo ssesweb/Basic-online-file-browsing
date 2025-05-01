@@ -29,7 +29,7 @@ def index():
     drives = [f"{d}:\\" for d in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' if os.path.exists(f"{d}:\\")]
     
     # 获取系统文件夹路径 - 使用多方法组合
-    from app.get_sy_folders import get_system_folder
+    from get_sy_folders import get_system_folder
     
     system_folders = [
         '桌面', '文档', '下载', '图片', '音乐', '视频', 'OneDrive'
@@ -389,8 +389,10 @@ if __name__ == '__main__':
         print(f"正在为您自动打开浏览器，访问地址: {url}")
         webbrowser.open(url)
     
-    # 创建线程运行浏览器打开函数
-    threading.Thread(target=open_browser).start()
+    # 仅在主进程执行浏览器打开
+    if os.environ.get('WERKZEUG_RUN_MAIN') != 'true':
+        # 创建线程运行浏览器打开函数
+        threading.Thread(target=open_browser).start()
     
     # 必须关掉debug模式的重载器，不然又他妈会检测两次
     app.run(host='0.0.0.0', port=port, debug=True, use_reloader=True)
