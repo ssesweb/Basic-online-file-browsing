@@ -3,6 +3,7 @@
 /* 确保侧边栏和主内容区高度一致 */
 .row.g-0 {
     min-height: calc(100vh - 120px);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 /* 响应式调整 */

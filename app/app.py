@@ -29,7 +29,7 @@ def index():
     drives = [f"{d}:\\" for d in 'ABCDEFGHIJKLMNOPQRSTUVWXYZ' if os.path.exists(f"{d}:\\")]
     
     # 获取系统文件夹路径 - 使用多方法组合
-    from get_sy_folders import get_system_folder
+    from app.get_sy_folders import get_system_folder
     
     system_folders = [
         '桌面', '文档', '下载', '图片', '音乐', '视频', 'OneDrive'

@@ -24,42 +24,42 @@ body {
 
 /* 深色模式样式覆盖 */
 body.dark-mode {
-    background-color: var(--dark-background-color);
-    color: var(--dark-text-primary);
+    background-color: var(--background-color);
+    color: var(--text-primary);
 }
 
 /* 深色模式下的按钮关闭图标 */
 body.dark-mode .btn-close {
-    filter: var(--dark-btn-close-filter);
+    filter: var(--btn-close-filter);
 }
 
 /* 深色模式下的卡片和模态框 */
 body.dark-mode .card,
 body.dark-mode .modal-content {
     background-color: var(--card-bg);
-    border-color: var(--dark-border-color);
+    border-color: var(--border-color);
 }
 
 /* 深色模式下的导航栏 */
 body.dark-mode nav.navbar-dark {
-    background-color: var(--dark-background-secondary);
+    background-color: var(--background-secondary);
 }
 
 /* 深色模式下的列表项 */
 body.dark-mode .list-group-item {
-    background-color: var(--dark-background-secondary);
-    color: var(--dark-text-primary);
-    border-color: var(--dark-border-color);
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
 }
 
 /* 深色模式下的下拉菜单 */
 body.dark-mode .dropdown-menu {
-    background-color: var(--dark-background-secondary);
-    border-color: var(--dark-border-color);
+    background-color: var(--background-secondary);
+    border-color: var(--border-color);
 }
 
 body.dark-mode .dropdown-item {
-    color: var(--dark-text-primary);
+    color: var(--text-primary);
 }
 
 body.dark-mode .dropdown-item:hover {
@@ -68,28 +68,28 @@ body.dark-mode .dropdown-item:hover {
 
 /* 深色模式下的导航栏和面包屑样式 */
 body.dark-mode nav.navbar-dark {
-    background-color: var(--dark-background-secondary);
-    border-color: var(--dark-border-color);
+    background-color: var(--background-secondary);
+    border-color: var(--border-color);
 }
 
 body.dark-mode .breadcrumb {
-    background-color: var(--dark-background-secondary) !important;
-    border-color: var(--dark-border-color);
+    background-color: var(--background-secondary) !important;
+    border-color: var(--border-color);
 }
 
 body.dark-mode .breadcrumb-item,
 body.dark-mode .breadcrumb-item a {
-    color: var(--dark-text-primary);
+    color: var(--text-primary);
 }
 
 body.dark-mode .breadcrumb-item.active {
-    color: var(--dark-text-secondary);
+    color: var(--text-secondary);
 }
 
 /* 深色模式下的视频模态框样式 */
 body.dark-mode #videoModal .modal-content {
-    background-color: var(--dark-background-secondary);
-    border-color: var(--dark-border-color);
+    background-color: var(--background-secondary);
+    border-color: var(--border-color);
 }
 
 body.dark-mode #videoModal .modal-body {
@@ -111,21 +111,19 @@ body.dark-mode #videoModal .modal-body {
 
 /* 深色模式下的主题切换按钮 */
 body.dark-mode #themeToggle {
-    background-color: var(--dark-background-secondary);
-    color: var(--dark-text-primary);
-    border: 1px solid var(--dark-border-color);
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
 }
 
 
 /* 文件夹图标样式 */
 .fa-folder-open {
-    color: var(--folder-icon-color);
-    filter: drop-shadow(var(--folder-icon-shadow));
-    transition: color var(--transition-time) ease, filter var(--transition-time) ease;
+    color: var(--warning-color);
+    transition: color var(--transition-time) ease;
 }
 
 /* 深色模式图标增强 */
 body.dark-mode .fa-folder-open {
-    color: var(--folder-icon-color);
-    filter: drop-shadow(var(--folder-icon-shadow));
+    color: var(--warning-color);
 }

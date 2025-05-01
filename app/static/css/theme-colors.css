@@ -1,0 +1,192 @@
+/* ===== 统一颜色方案 ===== */
+/* 基于配色方案.md文档中定义的标准颜色 */
+
+:root {
+    /* 🌞 日间模式（Light Mode）*/
+    --primary-color: #2D8CFF;    /* 主色：主要按钮、链接、图标高亮 */
+    --background-color: #FFFFFF; /* 背景主色：页面背景 */
+    --background-secondary: #F5F8FB; /* 辅助背景色：卡片、模块背景 */
+    --text-primary: #333333;     /* 字体主色：主内容文字 */
+    --text-secondary: #666666;   /* 字体次色：辅助信息、次要文字 */
+    --border-color: #9d9d9d;     /* 边框/分割线：卡片边框、表格线 */
+    --disabled-bg: #F0F0F0;      /* 禁用按钮背景：禁用状态按钮背景 */
+    --disabled-text: #BFBFBF;    /* 禁用字体颜色：禁用状态文字颜色 */
+    --success-color: #52C41A;    /* 成功提示色：成功状态色（绿色） */
+    --warning-color: #FAAD14;    /* 警告提示色：警告状态色（黄色） */
+    --error-color: #FF4D4F;      /* 错误提示色：错误状态色（红色） */
+    
+    /* 主题切换按钮 */
+    --theme-btn-bg: transparent;
+    --theme-btn-border: var(--primary-color);
+    --theme-btn-hover: rgba(45, 140, 255, 0.1);
+    --theme-icon-color: var(--primary-color);
+    
+    /* 关闭按钮过滤器 - 亮色模式 */
+    --btn-close-filter: none;
+    
+    /* 过渡动画时间 */
+    --transition-time: 0.3s;
+}
+
+/* 🌙 夜间模式（Dark Mode）*/
+body.dark-mode,
+html.dark-mode {
+    --primary-color: #2D8CFF;     /* 保持主色一致（蓝色高亮） */
+    --background-color: #141414;  /* 整体背景变暗 */
+    --background-secondary: #1F1F1F; /* 卡片、模块背景（稍亮一点） */
+    --text-primary: #E0E0E0;      /* 主内容文字（亮灰白） */
+    --text-secondary: #A0A0A0;    /* 次要文字 */
+    --border-color: #303030;      /* 分割线、边框（深灰） */
+    --disabled-bg: #2A2A2A;       /* 禁用状态背景 */
+    --disabled-text: #555555;     /* 禁用状态文字颜色 */
+    --success-color: #73D13D;     /* 夜间成功提示绿色（微亮） */
+    --warning-color: #FFC53D;     /* 夜间警告色（明亮黄） */
+    --error-color: #FF7875;       /* 夜间错误色（微亮红） */
+    
+    /* 按钮样式 */
+    --theme-btn-bg: transparent;
+    --theme-btn-border: #E0E0E0;
+    --theme-btn-hover: rgba(224, 224, 224, 0.1);
+    --theme-icon-color: #E0E0E0;
+    
+    /* 关闭按钮样式 */
+    --btn-close-filter: invert(1) grayscale(100%) brightness(200%);
+    
+    /* 卡片背景 */
+    --card-bg: #1F1F1F;
+}
+
+/* 深色模式下的导航栏 */
+body.dark-mode nav.navbar-dark {
+    --bs-navbar-color: var(--text-primary);
+    --bs-navbar-brand-color: var(--text-primary);
+    --bs-navbar-brand-hover-color: var(--text-primary);
+    background-color: var(--background-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+body.dark-mode .navbar-dark .navbar-brand,
+body.dark-mode .navbar-dark .navbar-brand:hover {
+    color: var(--text-primary) !important;
+}
+
+/* 文件图标颜色 */
+.file-icon-outline {
+    color: var(--primary-color);
+}
+
+body.dark-mode .file-icon-outline.fa-folder {
+    color: var(--warning-color);
+}
+
+/* 按钮样式 */
+.button-primary {
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 0.6em 1.2em;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button-primary:hover {
+    opacity: 0.9;
+}
+
+/* 主题切换按钮样式 */
+.theme-toggle {
+    background: var(--theme-btn-bg);
+    border: 1px solid var(--theme-btn-border);
+    color: var(--theme-icon-color);
+    transition: all 0.3s ease;
+    padding: 8px 16px;
+    border-radius: 24px;
+}
+
+.theme-toggle:hover {
+    background-color: var(--theme-btn-hover);
+}
+
+/* 卡片样式 */
+.card {
+    background-color: var(--background-color);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.card-header {
+    background-color: var(--background-secondary);
+    border-bottom-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+/* 列表项样式 */
+.list-group-item {
+    background-color: var(--background-color);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.list-group-item-action:hover {
+    background-color: var(--background-secondary);
+}
+
+/* 模态框样式 */
+.modal-content {
+    background-color: var(--background-color);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.modal-header,
+.modal-footer {
+    border-color: var(--border-color);
+}
+
+/* 表格样式 */
+.table {
+    color: var(--text-primary);
+    border-color: var(--border-color);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: var(--background-secondary);
+}
+
+/* 链接样式 */
+a {
+    color: var(--primary-color);
+}
+
+a:hover {
+    color: var(--primary-color);
+    opacity: 0.8;
+}
+
+/* 输入框样式 */
+.form-control {
+    background-color: var(--background-color);
+    border-color: var(--border-color);
+    color: var(--text-primary);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(45, 140, 255, 0.25);
+}
+
+/* 下拉菜单样式 */
+.dropdown-menu {
+    background-color: var(--background-color);
+    border-color: var(--border-color);
+}
+
+.dropdown-item {
+    color: var(--text-primary);
+}
+
+.dropdown-item:hover {
+    background-color: var(--background-secondary);
+    color: var(--text-primary);
+}
